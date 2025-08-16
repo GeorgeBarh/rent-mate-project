@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse Products{% endblock %}
+
+{% block content %}
+<h2>Available Products</h2>
+<ul>
+    {% for product in products %}
+    <li>
+        <h3>{{ product.name }}</h3>
+        <p>Category: {{ product.get_category_display }}</p>
+        <p>Price: €{{ product.price_per_day }} per day</p>
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <hr>
+    </li>
+    {% empty %}
+    <li>No products available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
