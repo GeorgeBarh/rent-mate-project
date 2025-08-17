@@ -7,7 +7,7 @@
 <ul>
     {% for product in products %}
     <li>
-        <h3>{{ product.name }}</h3>
+        <h3><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h3>
         <p>Category: {{ product.get_category_display }}</p>
         <p>Price: €{{ product.price_per_day }} per day</p>
         {% if product.image %}
