@@ -6,11 +6,24 @@
   <h2>{{ product.name }}</h2>
   <p><strong>Category:</strong> {{ product.get_category_display }}</p>
   <p><strong>Price per day:</strong> €{{ product.price_per_day }}</p>
+  
   {% if product.image %}
     <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
   {% endif %}
+  
   <p>{{ product.description }}</p>
   <p><strong>Available:</strong> {{ product.available|yesno:"Yes,No" }}</p>
-  <!-- Booking button will be added here later -->
+
+  {% if user.is_authenticated %}
+      {% if product.available %}
+          <a href="{% url 'book_product' product.pk %}">Book This Product</a>
+      {% else %}
+          <p>This item is currently unavailable.</p>
+      {% endif %}
+  {% else %}
+      <p><a href="{% url 'account_login' %}">Log in</a> to book this item.</p>
+  {% endif %}
+
+  <br><br>
   <a href="{% url 'product_list' %}">← Back to Products</a>
 {% endblock %}

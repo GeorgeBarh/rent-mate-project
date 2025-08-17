@@ -6,4 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_views.index, name='home'),
     path('products/', include('products.urls')),
+    path('rentals/', include('rentals.urls')),
+
 ]
