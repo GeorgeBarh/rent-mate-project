@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import BookingForm
 from .models import Booking
 from products.models import Product
+from django.contrib import messages
 
 @login_required
 def book_product(request, pk):
@@ -11,11 +12,25 @@ def book_product(request, pk):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            booking = form.save(commit=False)
-            booking.user = request.user
-            booking.product = product
-            booking.save()
-            return redirect('product_detail', pk=product.pk)
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+
+            # Check for overlap
+            conflicting = Booking.objects.filter(
+                product=product,
+                start_date__lte=end_date,
+                end_date__gte=start_date
+            ).exists()
+
+            if conflicting:
+                messages.error(request, 'This product is already booked for the selected dates.')
+            else:
+                booking = form.save(commit=False)
+                booking.user = request.user
+                booking.product = product
+                booking.save()
+                messages.success(request, 'Your booking has been confirmed!')
+                return redirect('product_detail', pk=product.pk)
     else:
         form = BookingForm()
 
