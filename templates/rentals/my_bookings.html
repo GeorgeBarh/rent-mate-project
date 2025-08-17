@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<h2>My Bookings</h2>
+
+{% if bookings %}
+    <ul>
+        {% for booking in bookings %}
+        <li>
+            <strong>{{ booking.product.name }}</strong><br>
+            From: {{ booking.start_date }} <br>
+            To: {{ booking.end_date }} <br>
+            Booked on: {{ booking.created_at|date:"Y-m-d H:i" }}
+            <hr>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You haven’t made any bookings yet.</p>
+{% endif %}
+
+{% endblock %}

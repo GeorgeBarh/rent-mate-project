@@ -1,6 +1,4 @@
 {% load static %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +10,13 @@
     <header>
         <h1><a href="/">RentMate</a></h1>
         <nav>
-            <!-- Add links here later -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'my_bookings' %}">My Bookings</a>
+                <!-- You can add Logout or Profile links here later -->
+            {% else %}
+                <a href="{% url 'account_login' %}">Login</a>
+                <a href="{% url 'account_signup' %}">Register</a>
+            {% endif %}
         </nav>
     </header>
 
