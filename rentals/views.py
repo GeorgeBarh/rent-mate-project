@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Booking
-from .forms import BookingForm
-from products.models import Product
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
+from .models import Booking
+from .forms import BookingForm
+from products.models import Product
 import stripe
+
+from datetime import timedelta
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -16,10 +18,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def book_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    # Get all existing bookings for this product
     bookings = Booking.objects.filter(product=product)
-
-    # Create list of unavailable date ranges
     booked_dates = [
         {"start": booking.start_date, "end": booking.end_date}
         for booking in bookings
@@ -31,7 +30,6 @@ def book_product(request, product_id):
             start = form.cleaned_data['start_date']
             end = form.cleaned_data['end_date']
 
-            # Check for overlap
             overlap = bookings.filter(
                 start_date__lte=end,
                 end_date__gte=start
@@ -81,6 +79,12 @@ def create_checkout_session(request, booking_id):
     domain = request.build_absolute_uri('/')
 
     try:
+        # Debug output to help track what's going wrong
+
+        # Stripe expects amount in cents (integer)
+        unit_price = int(float(booking.product.price_per_day) * 100)
+        print("Unit Amount (in cents):", unit_price)
+
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
@@ -89,7 +93,7 @@ def create_checkout_session(request, booking_id):
                     'product_data': {
                         'name': booking.product.name,
                     },
-                    'unit_amount': int(booking.product.price * 100),
+                    'unit_amount': unit_price,
                 },
                 'quantity': 1,
             }],
@@ -101,6 +105,7 @@ def create_checkout_session(request, booking_id):
             }
         )
         return redirect(checkout_session.url)
+
     except Exception as e:
         messages.error(request, "An error occurred while starting checkout.")
         return redirect('my_bookings')
@@ -127,7 +132,6 @@ def stripe_webhook(request):
     except (ValueError, stripe.error.SignatureVerificationError):
         return HttpResponse(status=400)
 
-    # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
         booking_id = session.get('metadata', {}).get('booking_id')
