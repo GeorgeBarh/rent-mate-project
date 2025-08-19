@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://rent-mate-39fb0669e05e.herokuapp.com/sitemap.xml
