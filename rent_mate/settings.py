@@ -38,7 +38,7 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
     '127.0.0.1',  # local dev
     'localhost',
-    'your-app-name.herokuapp.com',  # replace with  actual Heroku app domain
+    'https://rent-mate-39fb0669e05e.herokuapp.com/', 
     
 ]
 
