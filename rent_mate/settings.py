@@ -15,6 +15,9 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+
 
 load_dotenv()
 
@@ -29,9 +32,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2&qejy+-gp6j=*=&hx2ayt6441&$e8@yh*bp1czh)-hd60i1xm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    '127.0.0.1',  # local dev
+    'localhost',
+    'your-app-name.herokuapp.com',  # replace with  actual Heroku app domain
+    
+]
 
 
 # Application definition
@@ -77,6 +86,7 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -172,3 +182,6 @@ STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
