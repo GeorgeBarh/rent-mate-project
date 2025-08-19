@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="alert alert-success">
+    <h3> Payment Successful</h3>
+    <p>Thank you! Your rental booking has been confirmed and marked as paid.</p>
+    <a href="{% url 'my_bookings' %}" class="btn btn-primary mt-3">View My Bookings</a>
+  </div>
+</div>
+{% endblock %}

@@ -7,7 +7,6 @@ from django.contrib import messages
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -15,7 +14,6 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @login_required
 def book_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    booking = None
 
     if request.method == 'POST':
         form = BookingForm(request.POST)
@@ -36,12 +34,7 @@ def book_product(request, pk):
                 booking.user = request.user
                 booking.product = product
                 booking.save()
-                messages.success(request, 'Booking created! Please proceed to payment.')
-                return render(request, 'rentals/book_product.html', {
-                    'form': form,
-                    'product': product,
-                    'booking': booking
-                })
+                return redirect('create_checkout_session', booking_id=booking.id)
     else:
         form = BookingForm()
 
@@ -61,7 +54,7 @@ def my_bookings(request):
 def create_checkout_session(request, booking_id):
     booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
 
-    domain_url = 'http://127.0.0.1:8000/'  # Replace with live domain on deployment
+    domain_url = 'http://127.0.0.1:8000/'  # Change to your live domain when deployed
 
     try:
         checkout_session = stripe.checkout.Session.create(
@@ -70,7 +63,7 @@ def create_checkout_session(request, booking_id):
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
-                    'unit_amount': int(booking.total_price() * 100),  # Stripe needs cents
+                    'unit_amount': int(booking.total_price() * 100),
                     'product_data': {
                         'name': f'Rental: {booking.product.name}',
                     },
@@ -94,33 +87,19 @@ def payment_cancel(request):
     return render(request, 'rentals/payment_cancel.html')
 
 
-@csrf_exempt
-def stripe_webhook(request):
-    payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
-    event = None
+from django.http import HttpResponseForbidden
 
-    try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        return HttpResponse(status=400)
+@login_required
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
 
-    # Handle the checkout.session.completed event
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        booking_id = session['metadata'].get('booking_id')
+    if booking.paid:
+        messages.error(request, 'You cannot cancel a paid booking.')
+        return redirect('my_bookings')
 
-        if booking_id:
-            try:
-                booking = Booking.objects.get(id=booking_id)
-                booking.paid = True
-                booking.save()
-            except Booking.DoesNotExist:
-                pass
+    if request.method == 'POST':
+        booking.delete()
+        messages.success(request, 'Your booking has been cancelled.')
+        return redirect('my_bookings')
 
-    return HttpResponse(status=200)
+    return HttpResponseForbidden("Invalid request method.")

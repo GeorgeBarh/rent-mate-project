@@ -17,4 +17,8 @@ class Booking(models.Model):
         return (self.end_date - self.start_date).days + 1
 
     def total_price(self):
-        return self.total_days() * self.product.price_per_day
+        if self.start_date and self.end_date and self.product:
+            duration = (self.end_date - self.start_date).days
+            if duration > 0:
+                return int(self.product.price_per_day * duration)
+        return 0
