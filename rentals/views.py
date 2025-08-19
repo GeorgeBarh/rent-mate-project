@@ -92,3 +92,35 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, 'rentals/payment_cancel.html')
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        booking_id = session['metadata'].get('booking_id')
+
+        if booking_id:
+            try:
+                booking = Booking.objects.get(id=booking_id)
+                booking.paid = True
+                booking.save()
+            except Booking.DoesNotExist:
+                pass
+
+    return HttpResponse(status=200)
