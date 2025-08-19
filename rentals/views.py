@@ -1,46 +1,58 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .forms import BookingForm
-from .models import Booking
-from products.models import Product
 from django.contrib import messages
-import stripe
+from django.contrib.auth.decorators import login_required
+from .models import Booking
+from .forms import BookingForm
+from products.models import Product
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
-from django.http import JsonResponse
+import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required
-def book_product(request, pk):
-    product = get_object_or_404(Product, pk=pk)
+def book_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
 
-    if request.method == 'POST':
+    # Get all existing bookings for this product
+    bookings = Booking.objects.filter(product=product)
+
+    # Create list of unavailable date ranges
+    booked_dates = [
+        {"start": booking.start_date, "end": booking.end_date}
+        for booking in bookings
+    ]
+
+    if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
+            start = form.cleaned_data['start_date']
+            end = form.cleaned_data['end_date']
 
-            conflicting = Booking.objects.filter(
-                product=product,
-                start_date__lte=end_date,
-                end_date__gte=start_date
+            # Check for overlap
+            overlap = bookings.filter(
+                start_date__lte=end,
+                end_date__gte=start
             ).exists()
 
-            if conflicting:
-                messages.error(request, 'This product is already booked for the selected dates.')
+            if overlap:
+                messages.error(request, "Selected dates are unavailable.")
             else:
                 booking = form.save(commit=False)
                 booking.user = request.user
                 booking.product = product
                 booking.save()
+
                 return redirect('create_checkout_session', booking_id=booking.id)
     else:
         form = BookingForm()
 
     return render(request, 'rentals/book_product.html', {
         'form': form,
-        'product': product
+        'product': product,
+        'booked_dates': booked_dates,
     })
 
 
@@ -51,32 +63,47 @@ def my_bookings(request):
 
 
 @login_required
-def create_checkout_session(request, booking_id):
-    booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
-    domain_url = 'http://127.0.0.1:8000/'  # Change to your live domain when deployed
+    if booking.paid:
+        messages.error(request, "You cannot cancel a paid booking.")
+    else:
+        booking.delete()
+        messages.success(request, "Booking cancelled.")
+
+    return redirect('my_bookings')
+
+
+@login_required
+def create_checkout_session(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+    domain = request.build_absolute_uri('/')
 
     try:
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
-            mode='payment',
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
-                    'unit_amount': int(booking.total_price() * 100),
                     'product_data': {
-                        'name': f'Rental: {booking.product.name}',
+                        'name': booking.product.name,
                     },
+                    'unit_amount': int(booking.product.price * 100),
                 },
                 'quantity': 1,
             }],
-            metadata={'booking_id': booking.id},
-            success_url=domain_url + 'rentals/payment-success/',
-            cancel_url=domain_url + 'rentals/payment-cancel/',
+            mode='payment',
+            success_url=domain + 'rentals/payment-success/',
+            cancel_url=domain + 'rentals/payment-cancel/',
+            metadata={
+                'booking_id': booking.id
+            }
         )
         return redirect(checkout_session.url)
     except Exception as e:
-        return JsonResponse({'error': str(e)})
+        messages.error(request, "An error occurred while starting checkout.")
+        return redirect('my_bookings')
 
 
 def payment_success(request):
@@ -87,19 +114,30 @@ def payment_cancel(request):
     return render(request, 'rentals/payment_cancel.html')
 
 
-from django.http import HttpResponseForbidden
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    event = None
 
-@login_required
-def cancel_booking(request, booking_id):
-    booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+    except (ValueError, stripe.error.SignatureVerificationError):
+        return HttpResponse(status=400)
 
-    if booking.paid:
-        messages.error(request, 'You cannot cancel a paid booking.')
-        return redirect('my_bookings')
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        booking_id = session.get('metadata', {}).get('booking_id')
 
-    if request.method == 'POST':
-        booking.delete()
-        messages.success(request, 'Your booking has been cancelled.')
-        return redirect('my_bookings')
+        if booking_id:
+            try:
+                booking = Booking.objects.get(id=booking_id)
+                booking.paid = True
+                booking.save()
+            except Booking.DoesNotExist:
+                pass
 
-    return HttpResponseForbidden("Invalid request method.")
+    return HttpResponse(status=200)

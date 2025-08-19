@@ -7,7 +7,20 @@
 <div class="container my-5">
     <h2 class="mb-4">Book: {{ product.name }}</h2>
 
-    <form method="POST" class="card p-4 shadow-sm">
+    <!-- Unavailable Dates -->
+    {% if booked_dates %}
+        <div class="alert alert-info">
+            <strong>Unavailable Dates:</strong>
+            <ul class="mb-0">
+                {% for date_range in booked_dates %}
+                    <li>{{ date_range.start }} to {{ date_range.end }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Booking Form -->
+    <form id="booking-form" method="POST" class="card p-4 shadow-sm">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -25,5 +38,23 @@
 
         <button type="submit" class="btn btn-success w-100">Proceed to Checkout</button>
     </form>
+
+    <!-- Loading Spinner (Hidden by Default) -->
+    <div id="loading" class="text-center mt-3 d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Redirecting to Stripe...</span>
+        </div>
+        <p class="mt-2">Redirecting to Stripe...</p>
+    </div>
 </div>
+
+<!-- JS to Show Spinner -->
+<script>
+    const form = document.getElementById('booking-form');
+    const loading = document.getElementById('loading');
+
+    form.addEventListener('submit', () => {
+        loading.classList.remove('d-none');
+    });
+</script>
 {% endblock %}
