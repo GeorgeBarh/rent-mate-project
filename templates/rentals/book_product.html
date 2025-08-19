@@ -4,10 +4,22 @@
 
 {% block content %}
 <h2>Book {{ product.name }}</h2>
+
+<p><strong>Price per day:</strong> ${{ product.price_per_day }}</p>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Confirm Booking</button>
+    <button type="submit">Check Availability</button>
 </form>
-<a href="{% url 'product_detail' product.pk %}">← Back</a>
+
+{% if booking %}
+    <hr>
+    <p>Booking created for {{ booking.total_days }} day(s).</p>
+    <p>Total price: ${{ booking.total_price }}</p>
+    <a href="{% url 'create_checkout_session' booking.id %}">
+        <button>Proceed to Payment</button>
+    </a>
+{% endif %}
+
 {% endblock %}

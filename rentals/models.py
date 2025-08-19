@@ -8,7 +8,7 @@ class Booking(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    paid = models.BooleanField(default=False)  # New field for payment status
+    paid = models.BooleanField(default=False)  
 
     def __str__(self):
         return f"{self.product.name} booked by {self.user.username} from {self.start_date} to {self.end_date}"
