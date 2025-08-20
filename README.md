@@ -1,246 +1,313 @@
-# RentMate – Equipment & Vehicle Rental Platform
+# RentMate
 
-## 1. Project Overview
+RentMate is a full-stack Django-based web application built for renting equipment and vehicles. It provides a seamless experience for users to browse, book, and pay for rental items in a secure and user-friendly environment. The platform features real-time availability checking, Stripe payment integration, user authentication, and a mobile-responsive design.
 
-### 1.1 Project Objective
+- Live site : https://rent-mate-39fb0669e05e.herokuapp.com/
+- Repository : https://github.com/GeorgeBarh/rent-mate-project
 
-**RentMate** is a full-stack Django e-commerce rental platform where users can explore and book rental equipment or vehicles for specific dates. Whether it’s a power tool, a van, or a luxury car — the system ensures users can check availability, make secure payments via Stripe, and manage their bookings.
+---
+![Responsive Screenshot](static\images\readme\respo.png)
 
-This project was developed for Code Institute's Portfolio Project 5 (PP5) and emphasizes secure authentication, a smooth booking experience, payment integration, and mobile-friendly responsive design.
+## Table of Contents
 
-Live Site: [https://rentmate-pp5.herokuapp.com/](https://rentmate-pp5.herokuapp.com/)
-GitHub Repo: [https://github.com/GeorgeBarh/rentmate](https://github.com/GeorgeBarh/rentmate)
+2. [Features](#features)
+3. [User Stories](#user-stories)
+4. [Design](#design)
+5. [Technologies Used](#technologies-used)
+6. [Testing](#testing)
+7. [Debugging & Fixes During Testing](#debugging--fixes-during-testing)
+8. [Deployment](#deployment)
+9. [Facebook Business Page](#facebook-business-page)
+10. [Future Features](#future-features)
+11. [Credits](#credits)
+12. [Disclaimer](#disclaimer)
 
 ---
 
-## 2. Features
+## Project Overview
+---
 
-### 2.1 Core Features
+## Features
 
-#### User Authentication
+### Core Functionality
 
-* Registration, login, logout using **Django AllAuth**.
-* Strong password validation.
-* Authenticated users can make bookings, view their bookings, and cancel unpaid ones.
+* **Product Browsing**: Paginated list of products by category (vehicles, equipment).
+![List of Products ](static\images\readme\products1.png)
+* **Booking System**: Users can select start and end dates and check real-time availability.
+![Make a booking](static\images\readme\book.png)
+* **Stripe Integration**: Secure payments are processed through [Stripe](https://stripe.com/), with success confirmed via webhook.
+![Payment form](static\images\readme\stripeform.png)
 
-#### Product Browsing
+* **My Bookings**: Authenticated users can view and cancel their bookings (if unpaid).
+![My Bookings section](static\images\readme\bookings.png)
 
-* Users can view a catalog of equipment and vehicles.
-* Each product includes a name, description, price per day, and image.
-* Cloudinary is used to host product images.
+* **Availability Validation**: Prevents double-booking with backend logic.
 
-#### Booking System
+### User Experience
 
-* Users select start and end dates to check availability.
-* If the product is booked during selected dates, an error is shown.
-* Available products proceed to **Stripe Checkout** for secure payment.
+* Responsive and mobile-friendly UI with a clean, professional layout.
+* Styled using [Bootstrap](https://getbootstrap.com/) and [Font Awesome](https://fontawesome.com/).
+* Clear user feedback via Django messages (e.g., booking confirmed, payment failed).
+![Success message](static\images\readme\success_fix.png)
 
-#### Stripe Payment Integration
+### Admin Panel
 
-* Stripe Checkout session is created with product name and rental fee.
-* Webhook handles post-payment confirmation and updates booking as paid.
-* Success and Cancel pages provide user feedback.
+* Product and booking management via Django admin.
 
-####  Newsletter Signup
+### Additional Features
 
-* A signup form in the footer allows users to enter an email.
-* Emails are stored in the database.
-* Bootstrap alerts confirm success or validation error.
+* Newsletter subscription with email validation.
+![Newsletter Subscription](static\images\readme\footer.png)
+
+* Facebook business page integration for outreach.
+![Facebook](static\images\readme\fb.png)
+
 
 ---
 
-## 3. UX Design
+## User Stories
 
-### 3.1 Target Audience
+### EPIC 1: Registration and Authentication
 
-* **General users** looking to rent tools or transport for short-term use.
-* **Small business owners** needing equipment without upfront purchases.
-* **Returning users** managing ongoing or past bookings.
+* As a new user, I can register with a strong password.
+![Sign up page](static\images\readme\register.png)
 
-### 3.2 Strategy
+* As a user, I can log in and log out securely.
+![Login page](static\images\readme\login.png)
+![Log out message](static\images\readme\logout.png)
 
-* Clear call-to-actions like “Book Now” buttons on each product.
-* Only logged-in users can proceed to booking.
-* Navigation bar updates dynamically based on auth state.
 
-### 3.3 Layout
+### EPIC 2: Product Browsing
 
-* Built using **Bootstrap 5**.
-* Dark green + yellow branding for a professional, utility-driven aesthetic.
-* Cards for each product, transparent modals, responsive layout.
+* As a user/guest, I can browse products by type.
+* As a guest, I can view but not book until I log in.
+![Products list](static\images\readme\products4.png)
 
-### 3.4 Responsiveness
 
-* Fully responsive layout tested across mobile, tablet, and desktop.
-* Uses Bootstrap grid and media queries.
+### EPIC 3: Booking
 
----
+* As a user, I can book a product for a selected date range.
+* As a user, I can see unavailable dates.
+* As a user, I am prevented from overlapping bookings.
+![Availability/Booking calendar](static\images\readme\book.png)
 
-## 4. Agile & Planning
 
-### 4.1 User Stories
+### EPIC 4: Payments
 
-| **EPIC**             | **As a user...**                                                     |
-| -------------------- | -------------------------------------------------------------------- |
-| Registration & Login | I can register, log in, and log out securely                         |
-| Product Browsing     | I can view a catalog of rental items                                 |
-| Booking              | I can book a product for specific dates and pay securely with Stripe |
-| My Bookings          | I can view all my bookings and cancel unpaid ones                    |
-| Newsletter           | I can enter my email to get updates                                  |
-| SEO & Sitemap        | I can trust the site will rank and handle errors gracefully          |
+* As a user, I can pay securely via Stripe.
+![Stripe](static\images\readme\stripeform.png)
 
-### 4.2 MoSCoW Prioritization
+* As a user, I get confirmation after successful payment.
+![Success message](static\images\readme\success_fix.png)
 
-#### Must Have
 
-* Auth, Booking Model, Stripe, Ownership logic
+### EPIC 5: Account Management
 
-#### Should Have
+* As a user, I can view my bookings.
+![My Bookings](static\images\readme\bookings.png)
 
-* Email signup, Sitemap, Admin tools
-
-#### Could Have
-
-* Dynamic calendar, Facebook embed
-
-#### Won’t Have
-
-* OTP / Email Verification (out of scope)
-
-### 4.3 GitHub Project Board
-
-* Tasks organized in a Kanban-style board.
-* Issues and enhancements tracked with milestones.
+* As a user, I can cancel unpaid bookings but not paid ones.
 
 ---
 
-## 5. Technologies Used
+## Design
 
-* **Python 3.12** + **Django 4.2**
-* **PostgreSQL** for Heroku production DB
-* **Cloudinary** for image hosting
-* **Stripe API** for secure checkout and webhooks
-* **Bootstrap 5**, **HTML5**, **CSS3** for UI
-* **Django AllAuth** – authentication
-* **GitHub**, **GitPod**, **Heroku**, **Gunicorn**, **Whitenoise**
-* **Django Crispy Forms** for styled forms
-* **W3C Validators**, **Lighthouse**, **Django TestCase** for testing
+The project followed mobile-first responsive design principles. Visual elements include:
+
+* Color palette: dark green with yellow contrast text.
+* Fonts: Clean sans-serif typography.
+* Layout: Card-based product listings, glass-effect forms.
+* Booking form with a calendar widget.
+* All pages responsive across devices.
 
 ---
 
-## 6. Testing
+## Technologies Used
 
-### 6.1 Manual Tests
+* [Django](https://www.djangoproject.com/) – Backend framework
+* [PostgreSQL](https://www.postgresql.org/) – Database (via Heroku add-on)
+* [Bootstrap 5](https://getbootstrap.com/) – CSS framework
+* [Font Awesome](https://fontawesome.com/) – Icons
+* [Cloudinary](https://cloudinary.com/) – Image hosting
+* [Stripe](https://stripe.com/) – Payment integration
+* [Heroku](https://www.heroku.com/) – Deployment platform
+* [Gunicorn](https://gunicorn.org/) – WSGI HTTP server
+* [WhiteNoise](http://whitenoise.evans.io/en/stable/) – Static file handling
 
-| Feature           | Action/Test Case                           | Status |
-| ----------------- | ------------------------------------------ | ------ |
-| Registration      | Create account with strong password        |  Pass |
-| Booking Conflict  | Attempt to book a date range already taken |  Pass |
-| Stripe Flow       | Checkout, pay, redirect to success         |  Pass |
-| View Bookings     | List only current user’s bookings          |  Pass |
-| Cancel Booking    | Only unpaid bookings can be cancelled      |  Pass |
-| Navbar Auth Logic | Nav updates on login/logout                |  Pass |
-| Newsletter Form   | Validation and DB save                     |  Pass |
-| Sitemap/404       | 404 shown on invalid page                  |  Pass |
+---
 
-### 6.2 Django Unit Tests
+## Testing
 
-* `test_views.py`: Covers booking, payment, and cancel views.
-* `test_forms.py`: Booking and newsletter form validation.
+### Automated Testing
 
-To run:
+#### rentals/tests.py
+
+*  Model string representation
+*  Authenticated user can access booking form
+*  Overlapping dates rejected
+*  My bookings shows correct user data
+*  Booking cancellation (unpaid) allowed
+*  Booking cancellation (paid) blocked
+*  Anonymous user redirected
+*  User can't cancel others' bookings
+
+#### rentals/test\_forms.py
+
+*  Valid booking form accepted
+*  Invalid date range rejected
+
+#### home/test\_forms.py
+
+*  Valid email accepted
+*  Invalid email rejected
+
+### Manual Testing
+
+* Registered and logged in as multiple users
+* Submitted booking forms with valid/invalid dates
+* Verified Stripe payment flow (test mode)
+* Tested button visibility for login/logout states
+* Checked mobile responsiveness
+
+---
+
+## Debugging & Fixes During Testing
+
+### SECRET\_KEY must not be empty
+
+**Issue**: Tests failed with missing SECRET\_KEY.
+**Fix**: Set a dummy key in terminal:
 
 ```bash
-python manage.py test
+$env:SECRET_KEY="test"; python manage.py test
 ```
 
-### 6.3 Lighthouse & Validators
+### Booking form accepting invalid date range
 
-* HTML: 100%
-* CSS: 100%
-* Accessibility: 98%
-* SEO: 90+
+**Issue**: Form accepted invalid date logic.
+**Fix**: Added `clean()` method to validate start/end date logic.
 
----
+### Static file error (preview\.jpg)
 
-## 7. Deployment
+**Issue**: Test failed due to missing image.
+**Fix**: Removed unused image reference from templates.
 
-### 7.1 Hosting
+### ModuleNotFoundError: No module named 'home.test\_forms'
 
-* Hosted on **Heroku**.
-* PostgreSQL used in production.
+**Issue**: Used `.py` in test command.
+**Fix**:
 
-### 7.2 Setup
+```bash
+python manage.py test home.test_forms
+```
 
-* `.env` for secret keys and Stripe variables
-* `Procfile`, `requirements.txt`, `runtime.txt`
-* `collectstatic`, `migrate`, `createsuperuser` via Heroku CLI
+### Test login/session issues
 
-### 7.3 Environment Variables
+**Issue**: Test client failed to authenticate.
+**Fix**:
 
-* `SECRET_KEY`
-* `DEBUG`
-* `DATABASE_URL`
-* `STRIPE_PUBLIC_KEY`
-* `STRIPE_SECRET_KEY`
-* `STRIPE_WEBHOOK_SECRET`
-* `ALLOWED_HOSTS`
+```python
+self.user = User.objects.create_user(username='testuser', password='testpass123')
+self.client.login(username='testuser', password='testpass123')
+```
 
 ---
 
-## 8. Database Schema
+## Deployment
 
-### Product
+### Hosted On:
 
-* `name`, `description`, `price_per_day`, `image`
+* [Heroku](https://heroku.com/)
 
-### Booking
+### Setup:
 
-* `user`, `product`, `start_date`, `end_date`, `paid`
-* Date overlap checks prevent double-bookings.
+* PostgreSQL via Heroku add-on
+* Stripe integration for payments
+* Cloudinary for image hosting
+* Gunicorn + WhiteNoise for production
 
-### NewsletterSignup
+### Steps:
 
-* `email` field, unique constraint
+1. Push code to [GitHub](https://github.com/GeorgeBarh/restaurant-booking-system-project)
+2. Connect Heroku app to GitHub
+3. Add env variables:
 
----
+   * SECRET\_KEY
+   * DEBUG
+   * DATABASE\_URL
+   * STRIPE\_PUBLIC\_KEY
+   * STRIPE\_SECRET\_KEY
+   * STRIPE\_WEBHOOK\_SECRET
+   * ALLOWED\_HOSTS
+4. Run migrations and collectstatic:
 
-## 9. Future Features
+```bash
+python manage.py migrate
+python manage.py collectstatic
+```
 
-* Admin dashboard with booking insights
-* Booking calendar UI
-* Email confirmations (SendGrid)
-* Review system for completed bookings
-* Coupons or discount logic
-* Facebook Business integration
-* Dynamic pricing per season
-
----
-
-## 10. Credits
-
-### Code & Docs
-
-* Code Institute walkthroughs (base structure)
-* Django Docs
-* Stripe Docs
-* Bootstrap Docs
-* Stack Overflow (bugs)
-
-### Media & Assets
-
-* Pexels – Stock images
-* Cloudinary – Image hosting
-* Font Awesome – Icons
-* Google Fonts – Montserrat
-* Responsively – Screenshots
-
-### Special Thanks
-
-* Code Institute mentors & peers
-* ChatGPT – Debugging support
-* GitHub Discussions – Deployment help
+5. Upload fixtures for product seeding
 
 ---
 
-© 2025 George Barh – RentMate Project
+## Facebook Business Page
+
+RentMate also has a Facebook Business Page to:
+
+* Share updates
+* Build community
+* Provide an additional contact channel
+
+**Visit:** [RentMate on Facebook](https://www.facebook.com/profile.php?id=61579385408462)
+![Facebook page](static\images\readme\fb.png)
+
+
+---
+
+## Future Features
+
+* Calendar with date availability preview
+* Admin dashboard for managing bookings/products
+* Email confirmation system
+* Loyalty and discount system for repeat customers
+
+---
+
+##  Code Validation & Accessibility
+
+
+All code was tested for quality, accessibility, and standards compliance using widely accepted industry tools.
+
+### Python - PEP8
+
+All Python files were tested using [flake8](https://flake8.pycqa.org/) and passed without errors, except some lines that were "too long". 
+
+### CSS - W3C Validator
+
+The CSS was validated using [W3C CSS Validator](https://jigsaw.w3.org/css-validator/).
+
+![CSS Validation](static\images\readme\css.png)
+
+## Lighthouse Report
+
+Lighthouse was used to validate performance, accessibility, SEO, and best practices.
+
+![Lighthouse Scores](static\images\readme\lighthouse.png)
+
+--- 
+
+
+## Credits
+
+* [Code Institute](https://codeinstitute.net/) – Project structure
+* [Bootstrap](https://getbootstrap.com/) / [Font Awesome](https://fontawesome.com/) – UI framework
+* [Stripe](https://stripe.com/) – Payment handling
+* [Cloudinary](https://cloudinary.com/) – Image hosting
+* [Pexels](https://www.pexels.com/) / [Unsplash](https://unsplash.com/) – Placeholder images
+* Stack Overflow, GitHub Issues,ChatGPT – Debugging support
+
+---
+
+## Disclaimer
+
+This site is built for educational purposes as a portfolio project. All payments are processed in **Stripe test mode** and no real transactions occur. Do not enter real credit card details.

@@ -3,10 +3,10 @@
 
 {% block content %}
 <div class="container my-5">
-  <div class="alert alert-success">
-    <h3> Payment Successful</h3>
-    <p>Thank you! Your rental booking has been confirmed and marked as paid.</p>
-    <a href="{% url 'my_bookings' %}" class="btn btn-primary mt-3">View My Bookings</a>
-  </div>
+  <div class="p-4 rounded" style="background-color: #003d2c; color: #ffdd57;">
+  <h3 class="fw-bold">Payment Successful</h3>
+  <p>Thank you! Your rental booking has been confirmed and marked as paid.</p>
+  <a href="{% url 'my_bookings' %}" class="btn btn-warning mt-3">View My Bookings</a>
+</div>
 </div>
 {% endblock %}
