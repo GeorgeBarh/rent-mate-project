@@ -11,11 +11,15 @@ body {
     padding: 0;
 }
 
+.navbar {
+    padding: 25px;
+}
+
 /* Navbar brand */
 .navbar-brand {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: 1.8rem;
+    font-size: 2.5rem;
     color: #f6d743 !important;
 }
 
@@ -45,6 +49,42 @@ p {
     border-top-left-radius: 0.375rem;
     border-top-right-radius: 0.375rem;
 }
+
+
+/* Hero Section */
+.hero-section {
+    background: url('/static/images/hero-bg.jpg') center center/cover no-repeat;
+    height: 80vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    border-bottom: 6px solid #1c3b2c;
+    /* subtle divider into Why Us section */
+}
+
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 60px 30px;
+    border-radius: 10px;
+}
+
+.text-yellow {
+    color: #f6d743;
+}
+
+/* Navbar Text Yellow */
+.navbar-dark .navbar-nav .nav-link {
+    color: #f6d743 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #fff !important;
+}
+
+
 
 @media (max-width: 768px) {
     .product-img {
@@ -112,4 +152,5 @@ body.d-flex.flex-column {
 footer {
     background-color: #111;
     color: #f6d743;
+
 }
