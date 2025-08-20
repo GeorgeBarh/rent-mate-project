@@ -1,0 +1,242 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Excavator",
+      "description": "Excavator for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "105",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647160/pexels-asphotograpy-95687_wgpm6k.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Bulldozer",
+      "description": "Bulldozer for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "110",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647159/pexels-dapur-melodi-192125-1009926_1_hbaqvt.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Forklift",
+      "description": "Forklift for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "115",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647159/pexels-denniz-futalan-339724-2523921_fprdem.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Dump Truck",
+      "description": "Dump Truck for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "120",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647159/pexels-davidmcelwee-14475776_yefrft.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Cement Mixer",
+      "description": "Cement Mixer for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "125",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647158/pexels-lucaspezeta-2333694_rxurjf.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Skid Steer",
+      "description": "Skid Steer for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "130",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647158/pexels-readymade-3964399_lwg5pk.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "Backhoe Loader",
+      "description": "Backhoe Loader for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "135",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647158/pexels-acecranesindia-29827348_mmo9o7.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Grader",
+      "description": "Grader for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "140",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647158/pexels-mehmet-akif-gunduz-8095759-18812422_e4jz8f.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "Crane",
+      "description": "Crane for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "145",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647158/pexels-adamhles-3167685_zwbx5y.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Mini Excavator",
+      "description": "Mini Excavator for heavy-duty construction tasks.",
+      "category": "vehicle",
+      "price_per_day": "150",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755647158/pexels-macourt-media-1519726-31461653_mzhy0j.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "Power Drill",
+      "description": "Power Drill available for rental.",
+      "category": "equipment",
+      "price_per_day": "31",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648894/pexels-karolina-grabowska-7285920_lqs2mz.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Chainsaw",
+      "description": "Chainsaw available for rental.",
+      "category": "equipment",
+      "price_per_day": "32",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648116/pexels-pixabay-209229_rip9jx.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "name": "Pressure Washer",
+      "description": "Pressure Washer available for rental.",
+      "category": "equipment",
+      "price_per_day": "33",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648115/pexels-introspectivedsgn-4876669_pyobns.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "name": "Jackhammer",
+      "description": "Jackhammer available for rental.",
+      "category": "equipment",
+      "price_per_day": "34",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648114/pexels-thomas-fuhrmann-2154366194-33484880_canmvj.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "name": "Ladder",
+      "description": "Ladder available for rental.",
+      "category": "equipment",
+      "price_per_day": "35",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648113/pexels-rafael-de-lancer-330543-2116491_mueubg.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 16,
+    "fields": {
+      "name": "Welding Machine",
+      "description": "Welding Machine available for rental.",
+      "category": "equipment",
+      "price_per_day": "36",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648113/pexels-tima-miroshnichenko-5845902_w3vkqz.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "name": "Air Compressor",
+      "description": "Air Compressor available for rental.",
+      "category": "equipment",
+      "price_per_day": "37",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648110/pexels-tuan-vy-903011268-20114436_cgt9dm.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "Paint Sprayer",
+      "description": "Paint Sprayer available for rental.",
+      "category": "equipment",
+      "price_per_day": "38",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648110/pexels-tima-miroshnichenko-6474200_lqzqjv.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 19,
+    "fields": {
+      "name": "Tile Cutter",
+      "description": "Tile Cutter available for rental.",
+      "category": "equipment",
+      "price_per_day": "39",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648110/pexels-vladimirsrajber-11806476_tlyhhf.jpg",
+      "available": true
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 20,
+    "fields": {
+      "name": "Concrete Vibrator",
+      "description": "Concrete Vibrator available for rental.",
+      "category": "equipment",
+      "price_per_day": "40",
+      "image": "https://res.cloudinary.com/dmigfq7jw/image/upload/v1755648109/pexels-tima-miroshnichenko-6473967_nzelo8.jpg",
+      "available": true
+    }
+  }
+]

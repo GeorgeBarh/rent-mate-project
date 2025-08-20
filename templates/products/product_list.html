@@ -11,7 +11,8 @@
         {% for product in products %}
         <div class="col">
             <div class="card h-100 shadow-sm">
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <!-- Add the product-img class here -->
+                <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">{{ product.description|truncatewords:20 }}</p>
