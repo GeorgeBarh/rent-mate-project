@@ -12,3 +12,4 @@ class NewsletterSignupForm(forms.ModelForm):
                 'style': 'max-width: 300px;',
             })
         }
+

@@ -117,19 +117,29 @@
 
 <!-- Footer -->
 <footer class="text-center py-4 bg-dark text-white mt-auto">
-    <div class="container">
-        <h5 class="text-warning mb-3">Subscribe to our Newsletter</h5>
-        <p class="small text-muted">Get the latest updates, offers, and rental deals straight to your inbox.</p>
+  <div class="container">
+    <h5 class="text-warning mb-2">Subscribe to our Newsletter</h5>
+    <p class="small text-muted">Get the latest updates, offers, and rental deals straight to your inbox.</p>
 
-        <form action="{% url 'newsletter' %}" method="post" class="d-flex justify-content-center align-items-center gap-2 mb-3">
-            {% csrf_token %}
-            {{ form.email }}
-            <button type="submit" class="btn btn-warning">Subscribe</button>
-        </form>
+<form action="{% url 'newsletter' %}" method="post" class="d-flex justify-content-center align-items-center gap-2 mb-3">
+  {% csrf_token %}
+  <div>
+    {{ newsletter_form.email }}
+    {% if newsletter_form.email.errors %}
+      <div class="text-danger small">
+        {% for error in newsletter_form.email.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <button type="submit" class="btn btn-warning">Subscribe</button>
+</form>
 
-        <p class="mb-0">&copy; {{ year|default:2025 }} <span class="text-warning">RentMate</span>. All rights reserved.</p>
-    </div>
+    <p class="mb-0">&copy; {{ year|default:2025 }} <span class="text-warning">RentMate</span>. All rights reserved.</p>
+  </div>
 </footer>
+
 
 
 <!-- JS -->
