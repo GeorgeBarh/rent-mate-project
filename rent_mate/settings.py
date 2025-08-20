@@ -15,7 +15,8 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'test-secret-key')
+
 
 
 

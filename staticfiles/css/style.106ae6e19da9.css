@@ -53,7 +53,7 @@ p {
 
 /* Hero Section */
 .hero-section {
-    background: url('/static/images/hero-bg.jpg') center center/cover no-repeat;
+    background: url("/static/images/hero-bg.403de7fc1c9f.jpg") center center/cover no-repeat;
     height: 80vh;
     width: 100%;
     position: relative;
