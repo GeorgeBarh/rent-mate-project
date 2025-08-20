@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -74,11 +75,9 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True
 
 
-ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = {"username"} 
+ACCOUNT_SIGNUP_FIELDS = ["email", "username*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 
@@ -215,3 +214,6 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Custom error handlers
+HANDLER404 = 'products.views.custom_404'
