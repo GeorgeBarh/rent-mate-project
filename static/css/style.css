@@ -1,35 +1,115 @@
+/* Ensure full-height layout for sticky footer */
 html,
 body {
     height: 100%;
-}
-
-body {
-    font-family: Arial, sans-serif;
+    background-color: #0f3c2e;
+    /* Dark green background */
+    color: #f6d743;
+    /* Yellow text */
+    font-family: 'Open Sans', sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #f2f2f2;
+    padding: 0;
 }
 
-h1 a {
-    text-decoration: none;
-    color: #333;
+/* Navbar brand */
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #f6d743 !important;
 }
 
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #f6d743;
+}
+
+/* Paragraphs and body text */
+p {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #f6d743;
+}
+
+/* Product Image */
 .product-img {
-    height: 400px;
-    /* Fixed height */
+    height: 300px;
     width: 100%;
-    /* Full width of card */
     object-fit: cover;
-    /* Crop image to fill space nicely */
     border-top-left-radius: 0.375rem;
-    /* Match Bootstrap card rounding */
     border-top-right-radius: 0.375rem;
 }
-
 
 @media (max-width: 768px) {
     .product-img {
         height: 150px;
     }
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #174c38;
+    /* Slightly darker card */
+    color: #f6d743;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #f6d743;
+    color: #0f3c2e;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #e6c200;
+    color: #0f3c2e;
+}
+
+.btn-outline-primary {
+    border-color: #f6d743;
+    color: #f6d743;
+}
+
+.btn-outline-primary:hover {
+    background-color: #f6d743;
+    color: #0f3c2e;
+}
+
+/* Why Choose Us section */
+section.bg-light {
+    background-color: #1c3b2c !important;
+    color: #f6d743;
+}
+
+/* Icons */
+.bi {
+    color: #f6d743;
+}
+
+/* Hero overlay fix */
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Sticky Footer Support */
+body.d-flex.flex-column {
+    min-height: 100vh;
+}
+
+/* Footer */
+footer {
+    background-color: #111;
+    color: #f6d743;
 }
